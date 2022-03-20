@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="preson"></div>
+  </body>
+  <script>
+    //源数据
+    let preson = {
+      name: '张三',
+      age: 18
+    };
+    document.getElementById('preson').innerHTML = preson.age;
+    // 模拟vue2实现响应式
+    // let p = {};
+    // Object.defineProperty(p, 'name', {
+    //   get() {
+    //     console.log('读取了p属性name');
+    //     return preson.name;
+    //   },
+    //   set(value) {
+    //     console.log('修改了p属性name');
+    //     preson.name = value;
+    //     document.getElementById('preson').innerHTML = preson.name;
+    //   }
+    // });
+
+    // 模拟vue3实现响应式
+    const p = new Proxy(preson, {
+      // 拦截读取属性值
+      get(target, prop) {
+        return Reflect.get(target, prop);
+      },
+      // 拦截设置属性值或添加新属性
+      set(target, prop, value) {
+        console.log(target, prop, value);
+        return Reflect.set(target, prop, value);
+      },
+      // 拦截删除属性
+      deleteProperty(target, prop) {
+        return Reflect.deleteProperty(target, prop);
+      }
+    });
+  </script>
+</html>
