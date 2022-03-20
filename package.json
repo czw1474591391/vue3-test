@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "eslint-plugin-html": "^6.2.0",
+    "save-dev": "0.0.1-security",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -43,7 +45,17 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "space-before-function-paren": [
+        0,
+        "always"
+      ],
+      "semi": [
+        2,
+        "always"
+      ],
+      "no-tabs": "off"
+    }
   },
   "browserslist": [
     "> 1%",
