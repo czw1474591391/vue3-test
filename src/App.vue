@@ -1,30 +1,21 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <setup :data="123" @hello="helloClg" :isShow="false">
+      <template v-slot:abc>
+        <h3>具名插槽</h3>
+      </template>
+    </setup>
+    <computed :isShow="false"></computed>
+    <watch :isShow="true"></watch>
   </div>
-  <router-view/>
 </template>
+<script setup>
+import setup from './components/setup-test';
+import computed from './components/computed';
+import watch from './components/watch';
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+function helloClg() {
+  console.log('父组件的方法');
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+</script>
+<style lang="scss"></style>
