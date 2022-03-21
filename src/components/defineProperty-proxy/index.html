@@ -37,7 +37,8 @@
         return Reflect.get(target, prop);
       },
       // 拦截设置属性值或添加新属性
-      set(target, prop, value) {
+      set(target, prop, value) {// target为源操作对象，prop为操作的属性，value是修改后的值
+        document.getElementById('preson').innerHTML = value;
         console.log(target, prop, value);
         return Reflect.set(target, prop, value);
       },
