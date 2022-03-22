@@ -47,7 +47,7 @@
 - reactive 定义的响应式数据是深层次的
 - 内部基于 ES6 的 proxy 实现、通过代理对象操作源对象内部数据进行操作
 
-### <h3 style="border-left:5px solid red;padding:10px;background:#333;color:white">Vue 响应式原理</h3>
+## <h3 style="border-left:5px solid red;padding:10px;background:#333;color:white">Vue 响应式原理</h3>
 
 ### <h4 style="border-left:5px solid red;padding-left:10px">vue2.x 响应原理<h4>
 
@@ -190,3 +190,81 @@ watchEffect(() => {
   console.log('执行了' + x1.value);
 });
 ```
+
+## <h3 style="border-left:5px solid red;padding:10px;background:#333;color:white">Vue3 生命周期</h3>
+
+| 钩子函数        | 作用                                                                                                                        |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| beforeCreate()  | 实例在内存中被创建出来，还没有初始化好 data 和 methods 属性。                                                               |
+| create()        | 实例已经在内存中创建，已经初始化好 data 和 method，此时还没有开始编译模板。                                                 |
+| beforeMount()   | 已经完成了模板的编译，还没有挂载到页面中。                                                                                  |
+| mounted()       | 将编译好的模板挂载到页面指定的容器中显示。                                                                                  |
+| beforeUpdate()  | 状态更新之前执行函数，此时 data 中的状态值是最新的，但是界面上显示的数据还是旧的，因为还没有开始重新渲染 DOM 节点。         |
+| updated()       | :此时 data 中的状态值和界面上显示的数据都已经完成了跟新，界面已经被重新渲染好了                                             |
+| beforeDestroy() | 实例被销毁之前。                                                                                                            |
+| destroyed()     | 实例销毁后调用，Vue 实例指示的所有东西都会解绑，所有的事件监听器都会被移除,所有的子实例也都会被销毁。组件已经被完全销毁板。 |
+
+- 在实际开发项目中这些钩子函数如何使用
+
+```javascript
+
+ beforeCreate : 可以在这函数中初始化加载动画
+ created ：做一些数据初始化，实现函数自执行
+ mounted： 调用后台接口进行网络请求，拿回数据，配合路由钩子做一些事情
+ destoryed ：当前组件已被删除，清空相关内容
+ mounted中做网络请求和重新赋值，在destoryed中清空页面数据。
+```
+
+### <h4 style="border-left:5px solid red;padding-left:10px">vue3 与 vue2 的对比<h4>
+
+```javascript
+Vue2--------------vue3
+beforeCreate  -> setup()
+created       -> setup()
+beforeMount   -> onBeforeMount
+mounted       -> onMounted
+beforeUpdate  -> onBeforeUpdate
+updated       -> onUpdated
+beforeDestroy -> onBeforeUnmount
+destroyed     -> onUnmounted
+activated     -> onActivated
+deactivated   -> onDeactivated
+errorCaptured -> onErrorCaptured
+
+```
+
+### <h4 style="border-left:5px solid red;padding-left:10px">Fragment<h4>
+
+- 在 tamplate 中无需一个根组件包裹
+- 实际上内部会将多个标签包含在一个 Fragment 虚拟元素中
+
+- 好处: 减少标签层级, 减小内存占用
+
+```javascript
+<template>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+</template>
+```
+
+### <h4 style="border-left:5px solid red;padding-left:10px">provide/inject<h4>
+
+- 提供和注入 主要用于跨层级组件(祖孙)间通信
+- 在多层嵌套组件中使用，不需要将数据一层一层往下传递
+- 可以县实现跨层级组件通信
+
+父组件
+
+```javascript
+import { provide } from 'vue';
+provide('info', helloClg); //传递的属性名，属性值
+```
+
+子孙组件
+
+```javascript
+import { inject } from 'vue';
+const info = inject('info);//父组件传递的属性名
+```
+
+### <h4 style="border-left:5px solid red;padding-left:10px">Teleport 传送组件<h4>

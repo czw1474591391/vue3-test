@@ -1,5 +1,6 @@
 <template>
   <div v-if="isShow">
+    <h3>{{ info }}</h3>
     <h3>{{ age }}</h3>
     <h3>{{ name }}</h3>
     <h3>{{ person }}</h3>
@@ -12,7 +13,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, defineProps, watchEffect } from 'vue';
+import { reactive, ref, defineProps, watchEffect, inject } from 'vue';
 defineProps({
   isShow: {
     type: Boolean,
@@ -28,7 +29,7 @@ const person = reactive({
     salary: 20
   }
 });
-
+const info = inject('info');
 // watchEffect函数，函数内部用到哪个就监听哪个
 watchEffect(() => {
   const x1 = age;
