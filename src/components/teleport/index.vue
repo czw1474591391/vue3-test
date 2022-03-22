@@ -17,7 +17,7 @@
 <script setup>
 import { ref } from 'vue';
 const target = ref('.li_1');
-console.log(target);
+// console.log(target);
 </script>
 
 <style></style>

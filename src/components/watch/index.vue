@@ -32,9 +32,9 @@ const person = reactive({
 const info = inject('info');
 // watchEffect函数，函数内部用到哪个就监听哪个
 watchEffect(() => {
-  const x1 = age;
-  console.log(person.job.salary);
-  console.log('执行了' + x1.value);
+  // const x1 = age;
+  // console.log(person.job.salary);
+  // console.log('执行了' + x1.value);
 });
 
 // // 1、监听ref定义的多个响应式数据,immediate属性代表初始化就执行一次

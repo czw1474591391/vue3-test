@@ -7,14 +7,16 @@
     </setup>
     <computed :isShow="false"></computed>
     <watch :isShow="false"></watch>
-    <Teleport1></Teleport1>
+    <!-- <Teleport1></Teleport1> -->
+    <Toref></Toref>
   </div>
 </template>
 <script setup>
 import setup from './components/setup-test';
 import computed from './components/computed';
 import watch from './components/watch';
-import Teleport1 from './components/teleport';
+// import Teleport1 from './components/teleport';
+import Toref from './components/toref';
 import { provide } from 'vue';
 provide('info', helloClg);
 

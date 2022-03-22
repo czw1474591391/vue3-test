@@ -47,6 +47,34 @@
 - reactive 定义的响应式数据是深层次的
 - 内部基于 ES6 的 proxy 实现、通过代理对象操作源对象内部数据进行操作
 
+#### <h4 style="border-left:5px solid red;padding-left:10px">toRef 函数<h4>
+
+- 作用：创建一个 ref 对象，其 value 值指向另一个对象的某个属性
+- 语法：`const name = toRef(person,'name')`
+- 应用：要将响应式对象中的某个属性单独提供给外部使用（重新赋值给其他变量）
+- 扩展：`toRef`与`torefs`功能一致，但是可以创建多个 ref 对象，语法`toRefs(person)`
+
+示例：
+
+```javascript
+const person1 = reactive({
+  name: '张三',
+  age: 15
+});
+const name = person1.name; //单独提供出去，会丢失响应式
+```
+
+<span style="background:red;padding:5px;color:white">正确使用</sp>
+
+```javascript
+const person1 = reactive({
+  name: '张三',
+  age: 15
+});
+const name = toRef(person1, 'name'); // 导出单个ref对象
+const { age } = toRefs(person1); // 批量导出多个ref对象，可以解构
+```
+
 ## <h3 style="border-left:5px solid red;padding:10px;background:#333;color:white">Vue 响应式原理</h3>
 
 ### <h4 style="border-left:5px solid red;padding-left:10px">vue2.x 响应原理<h4>
