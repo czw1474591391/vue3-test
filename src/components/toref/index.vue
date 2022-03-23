@@ -1,12 +1,19 @@
 <template>
-  <div>{{ name }}</div>
+  <div v-if="isShow">
+    <div>{{ name }}</div>
   <div>{{ age }}</div>
   <button>更改姓名</button>
+  </div>
 </template>
 
 <script setup>
-import { reactive, toRef, toRefs } from 'vue';
-
+import { reactive, toRef, toRefs, defineProps } from 'vue';
+defineProps({
+  isShow: {
+    type: Boolean,
+    default: true
+  }
+});
 const person1 = reactive({
   name: '张三',
   age: 15

@@ -8,7 +8,9 @@
     <computed :isShow="false"></computed>
     <watch :isShow="false"></watch>
     <!-- <Teleport1></Teleport1> -->
-    <Toref></Toref>
+    <Toref :isShow="false"></Toref>
+    <shallowreactive :isShow="false"></shallowreactive>
+    <toraw :isShow="true"></toraw>
   </div>
 </template>
 <script setup>
@@ -17,6 +19,9 @@ import computed from './components/computed';
 import watch from './components/watch';
 // import Teleport1 from './components/teleport';
 import Toref from './components/toref';
+import shallowreactive from './components/shoallowReactive';
+import toraw from './components/toRaw';
+
 import { provide } from 'vue';
 provide('info', helloClg);
 

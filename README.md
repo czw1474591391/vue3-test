@@ -75,6 +75,76 @@ const name = toRef(person1, 'name'); // 导出单个ref对象
 const { age } = toRefs(person1); // 批量导出多个ref对象，可以解构
 ```
 
+#### <h4 style="border-left:5px solid red;padding-left:10px">shallowReactive 与 shallowRef 函数<h4>
+
+- `shallowReactive`：只处理对象最外层的响应式，非 `proxy` 递归监听（浅响应式）
+- `shallowRef`：只处理基本数据烈性的响应式，不进行对象的响应式处理，（可手动触发 `triggerRef` 更新 ref 对象）
+- 使用场景：
+  - 如果有一个对象数据，结构很深，但变化时只是最外层属性变化===>`shallowReactive`
+  - 如果有一个对象数据，后续不会修改对象的属性，而是生新的对象进行替代 ===> `shallowRef`
+
+```javascript
+<template>
+  <div>
+    <!-- <h3>{{ person }}</h3> -->
+    <h3>{{ person1.age }}</h3>
+    <button @click="person.name += '-'">改变姓名</button>
+    <button @click="person.job.age++">改变深层次对象</button>
+    <button @click="changeShallowRef">改变shallowref对象</button>
+  </div>
+</template>
+
+<script setup>
+import { shallowReactive, shallowRef, triggerRef } from 'vue';
+
+// shallowReactive只监听浅层次对象(对象第一层属性)，非递归监听
+const person = shallowReactive({
+  name: '张三',
+  job: {
+    age: 18
+  }
+});
+const person1 = shallowRef({
+  age: 18
+});
+function changeShallowRef() {
+  person1.value.age = 20;
+  triggerRef(person1);
+  // 对于 shallow 过的 ref 对象，我们还可以手动去触发 ref 的变化监听事件来实现界面的改变
+}
+</script>
+
+```
+
+#### <h4 style="border-left:5px solid red;padding-left:10px">toRef 与 markRaw 函数<h4>
+
+- `toRef`函数是将被 ref 或 reactive 所代理的对象转换成普通对象
+- `markRaw`函数是告诉 vue 不代理此对象
+
+```javascript
+const obj = {
+  name: '张三',
+  job: {
+    age: 1
+  }
+};
+const obj2 = markRaw(obj); // markRaw是告诉vue这个对象不被proxy所代理
+const person2 = reactive(obj2);
+
+const person = reactive(obj);
+const person1 = toRaw(person); // toRaw是将ref或reactive对象转换成普通对象
+
+console.log(person1); // 结果都是普通对象
+console.log(person2);
+```
+
+#### <h4 style="border-left:5px solid red;padding-left:10px">响应式数据的判断<h4>
+
+- isRef：检查一个值是否为一个 ref 对象
+- isReactive：检查一个对象是否由`reactive`创建的响应式代理
+- isReadonly：检查一个对象师傅由`readonly`创建的只读代理
+- isProxy:检查一个对象是否由`reactive`或`readonly`方法创建的代理
+
 ## <h3 style="border-left:5px solid red;padding:10px;background:#333;color:white">Vue 响应式原理</h3>
 
 ### <h4 style="border-left:5px solid red;padding-left:10px">vue2.x 响应原理<h4>
@@ -131,7 +201,7 @@ const { age } = toRefs(person1); // 批量导出多个ref对象，可以解构
     });
     ```
 
-## <h3 style="border-left:5px solid red;padding:10px;background:#333;color:white">computed and watch</h3>
+## <h3 style="border-left:5px solid red;padding:10px;background:#333;color:white">computed 与 watch</h3>
 
 ### <h4 style="border-left:5px solid red;padding-left:10px">computed 函数<h4>
 
